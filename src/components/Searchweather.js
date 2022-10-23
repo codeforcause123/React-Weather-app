@@ -1,10 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef} from "react";
 
 export default function Searchweather() {
   const [search, setSearch] = useState("Delhi");
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
-  let componentMounted = true;
+  let componentMounted = useRef(true);
   console.log(process.env.REACT_APP_API_KEY);
   console.log(componentMounted.current);
   useEffect(() => {
@@ -17,11 +17,11 @@ export default function Searchweather() {
         console.log(data);
       }
       return () => {
-        componentMounted=false;
+        componentMounted.current.value=false;
       };
     };
     fetchWeather();
-  }, [search]);
+  }, [search,data]);
 
   let temp = (data.main.temp - 273.15).toFixed(2);
   let temp_min = (data.main.temp_min - 273.15).toFixed(2);
